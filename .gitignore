@@ -1,0 +1,12 @@
+.idea/
+.cache/
+
+__pycache__/
+build/
+dist/
+webdriver_controller.egg-info/
+venv/
+
+reports/
+
+pip-log.txt
