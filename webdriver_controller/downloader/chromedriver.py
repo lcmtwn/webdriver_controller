@@ -19,7 +19,7 @@ def download():
     filename = 'chromedriver_{}.zip'.format(platform)
     download_url = '{}{}/{}'.format(host, latest_verison, filename)
 
-    folder = '{}{}'.format(os.getcwd(), config.LOCAL_FOLDER)
+    folder = '{}{}'.format(os.getcwd(), config.INSTALLATION_FOLDER)
     dest = '{}/{}'.format(folder, filename)
 
     downloader.download_driver(download_url, dest)

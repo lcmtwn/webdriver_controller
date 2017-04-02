@@ -15,12 +15,12 @@ def download():
     for item in reversed(items):
         if 'standalone' in item.get('Key') and 'beta' not in item.get('Key'):
             selenium_key = item.get('Key').strip()
-
             break
 
-    download_url = '{}{}'.format(config.STORAGE_URLS.get('selenium'), selenium_key)
+    download_url = '{}{}'.format(config.STORAGE_URLS.get('selenium'),
+                                 selenium_key)
     filename = selenium_key.split('/')[1]
-    folder = '{}{}'.format(os.getcwd(), config.LOCAL_FOLDER)
+    folder = '{}{}'.format(os.getcwd(), config.INSTALLATION_FOLDER)
     dest = '{}/{}'.format(folder, filename)
 
     downloader.download_driver(download_url, dest)
