@@ -7,7 +7,7 @@ setup_args = {
     'name': 'webdriver_controller',
     'packages': find_packages(exclude=['tests']),
     'scripts': ['bin/webdriver_controller'],
-    'version': '0.0.1',
+    'version': '0.0.2',
     'description': 'a tool manages local Selenium Webdriver installation',
     'long_description': '''
         A tool manages local Selenium Webdriver installation. It is inspired by Angular team's webdriver-manager package. Details on https://github.com/lcmtwn/webdriver_controller.
