@@ -16,6 +16,7 @@ positional arguments:
   {download,cleanup}
     download          download Selenium Webdriver binaries
     cleanup           remove downloaded Selenium Webdriver binaries
+    list              list downloaded Selenium Webdriver version
 
 optional arguments:
   -h, --help          show this help message and exit
