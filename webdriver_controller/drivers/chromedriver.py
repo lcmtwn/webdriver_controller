@@ -1,4 +1,3 @@
-from pathlib import Path
 import subprocess
 
 import requests
@@ -14,8 +13,9 @@ class ChromeDriver(DownloaderMixin):
 
         self.version = self.get_latest_version()
         self.filename = 'chromedriver_{}.zip'.format(tools.get_platform())
-        self.download_url = '{}{}/{}'.format(config.STORAGE_URLS.get('chromedriver'),
-                                             self.version, self.filename)
+        self.download_url = '{}{}/{}'.format(
+            config.STORAGE_URLS.get('chromedriver'), self.version,
+            self.filename)
 
     def get_latest_version(self) -> str:
         host = config.STORAGE_URLS.get('chromedriver')
@@ -30,10 +30,10 @@ class ChromeDriver(DownloaderMixin):
         return latest_verison
 
     def download_driver(self):
-        folder = Path('{}{}'.format(Path.cwd(), config.INSTALLATION_FOLDER))
-        dest = '{}/{}'.format(folder, self.filename)
+        dest = '{}/{}'.format(config.INSTALLATION_FOLDER, self.filename)
 
         self.download(self.download_url, dest)
 
         # unzip the driver
-        subprocess.run(['unzip', '-oq', dest, '-d', folder])
+        subprocess.run(
+            ['unzip', '-oq', dest, '-d', config.INSTALLATION_FOLDER])

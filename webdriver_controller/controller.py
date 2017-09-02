@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 import shutil
 
 from webdriver_controller import config
@@ -8,30 +7,25 @@ from webdriver_controller.drivers.selenium_standalone import SeleniumStandalone
 
 
 class WebdriverController(object):
-    __installation_folder = Path('{}{}'.format(Path.cwd(),
-                                               config.INSTALLATION_FOLDER))
-    __installation_file = Path('{}{}/{}'.format(Path.cwd(),
-                                                config.INSTALLATION_FOLDER,
-                                                config.INSTALLATION_FILE))
-    __outdated_file = Path('{}.old'.format(__installation_file))
+    def _check_installation_folder(self) -> None:
+        if not config.INSTALLATION_FOLDER.exists():
+            config.INSTALLATION_FOLDER.mkdir()
 
-    def __check_installation_file(self) -> None:
-        if self.__installation_file.exists():
-            self.__installation_file.rename(self.__outdated_file)
+    def _check_version_file(self) -> None:
+        if config.VERSION_FILE.exists():
+            config.VERSION_FILE.rename(config.OUTDATED_VERSION_FILE)
 
-    def __remove_outdated_installation_file(self) -> None:
-        if self.__outdated_file.exists():
-            self.__outdated_file.unlink()
+    def _remove_outdated_version_file(self) -> None:
+        if config.OUTDATED_VERSION_FILE.exists():
+            config.OUTDATED_VERSION_FILE.unlink()
 
-    def __write_installation_file(self, version_info: dict) -> None:
-        with open(self.__installation_file, 'w') as fh:
+    def _write_version_file(self, version_info: dict) -> None:
+        with open(config.VERSION_FILE, 'w') as fh:
             json.dump(version_info, fh)
 
     def download(self):
-        if not self.__installation_folder.exists():
-            self.__installation_folder.mkdir()
-
-        self.__check_installation_file()
+        self._check_installation_folder()
+        self._check_version_file()
 
         chromedriver = ChromeDriver()
         chromedriver.download_driver()
@@ -44,25 +38,27 @@ class WebdriverController(object):
             'selenium': selenium_standalone.version
         }
 
-        self.__write_installation_file(version_info)
-        self.__remove_outdated_installation_file()
+        self._write_version_file(version_info)
+        self._remove_outdated_version_file()
 
     def cleanup(self):
-        if self.__installation_folder.exists():
-            print('deleting {} ...'.format(self.__installation_folder))
-            shutil.rmtree(self.__installation_folder)
+        if config.INSTALLATION_FOLDER.exists():
+            print('deleting {} ...'.format(config.INSTALLATION_FOLDER))
+            shutil.rmtree(config.INSTALLATION_FOLDER)
         else:
             print('no Selenium Webdriver installation found')
 
     def list(self):
-        if self.__installation_folder.exists():
-            if self.__installation_file.exists():
+        if config.INSTALLATION_FOLDER.exists():
+            if config.VERSION_FILE.exists():
                 version_info = {}
-                with open(self.__installation_file, 'r') as fh:
+                with open(config.VERSION_FILE, 'r') as fh:
                     version_info = json.load(fh)
 
-                print('ChromeDriver version: {}'.format(version_info.get('chrome')))
-                print('Selenium standalone version: {}'.format(version_info.get('selenium')))
+                print('ChromeDriver version: {}'.format(
+                    version_info.get('chrome')))
+                print('Selenium standalone version: {}'.format(
+                    version_info.get('selenium')))
             else:
                 print('no installation file found')
         else:

@@ -1,4 +1,3 @@
-from pathlib import Path
 import re
 
 import requests
@@ -13,11 +12,12 @@ class SeleniumStandalone(DownloaderMixin):
         super().__init__()
 
         self.version = self.get_latest_version()
-        self.filename = 'selenium-server-standalone-{}.jar'.format(self.version)
+        self.filename = 'selenium-server-standalone-{}.jar'.format(
+            self.version)
 
         version_key = self.version[:(self.version.find('.', -1) - 1)]
-        self.download_url = '{}{}/{}'.format(config.STORAGE_URLS.get('selenium'),
-                                             version_key, self.filename)
+        self.download_url = '{}{}/{}'.format(
+            config.STORAGE_URLS.get('selenium'), version_key, self.filename)
 
     def get_latest_version(self) -> str:
         resp = requests.get(config.STORAGE_URLS.get('selenium'))
@@ -28,7 +28,8 @@ class SeleniumStandalone(DownloaderMixin):
         items = doc.get('ListBucketResult').get('Contents')
 
         for item in reversed(items):
-            if 'standalone' in item.get('Key') and 'beta' not in item.get('Key'):
+            if 'standalone' in item.get('Key') and 'beta' not in item.get(
+                    'Key'):
                 selenium_key = item.get('Key').strip()
                 break
 
@@ -38,7 +39,6 @@ class SeleniumStandalone(DownloaderMixin):
         return version
 
     def download_driver(self):
-        folder = Path('{}{}'.format(Path.cwd(), config.INSTALLATION_FOLDER))
-        dest = '{}/{}'.format(folder, self.filename)
+        dest = '{}/{}'.format(config.INSTALLATION_FOLDER, self.filename)
 
         self.download(self.download_url, dest)
