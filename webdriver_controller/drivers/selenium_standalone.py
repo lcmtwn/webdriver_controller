@@ -4,13 +4,10 @@ import requests
 import xmltodict
 
 from webdriver_controller import config
-from webdriver_controller.tools.downloader import DownloaderMixin
 
 
-class SeleniumStandalone(DownloaderMixin):
+class SeleniumStandalone(object):
     def __init__(self):
-        super().__init__()
-
         self.version = self.get_latest_version()
         self.filename = 'selenium-server-standalone-{}.jar'.format(
             self.version)
@@ -37,8 +34,3 @@ class SeleniumStandalone(DownloaderMixin):
         version = pattern.match(selenium_key.split('/')[1]).group(1)
 
         return version
-
-    def download_driver(self):
-        dest = '{}/{}'.format(config.INSTALLATION_FOLDER, self.filename)
-
-        self.download(self.download_url, dest)

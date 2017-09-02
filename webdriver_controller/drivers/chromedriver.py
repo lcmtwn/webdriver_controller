@@ -3,14 +3,11 @@ import subprocess
 import requests
 
 from webdriver_controller import config
-from webdriver_controller.tools.downloader import DownloaderMixin
 from webdriver_controller.tools import tools
 
 
-class ChromeDriver(DownloaderMixin):
+class ChromeDriver(object):
     def __init__(self):
-        super().__init__()
-
         self.version = self.get_latest_version()
         self.filename = 'chromedriver_{}.zip'.format(tools.get_platform())
         self.download_url = '{}{}/{}'.format(
@@ -29,10 +26,8 @@ class ChromeDriver(DownloaderMixin):
 
         return latest_verison
 
-    def download_driver(self):
+    def unzip_file(self):
         dest = '{}/{}'.format(config.INSTALLATION_FOLDER, self.filename)
-
-        self.download(self.download_url, dest)
 
         # unzip the driver
         subprocess.run(

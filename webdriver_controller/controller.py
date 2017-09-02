@@ -4,6 +4,7 @@ import shutil
 from webdriver_controller import config
 from webdriver_controller.drivers.chromedriver import ChromeDriver
 from webdriver_controller.drivers.selenium_standalone import SeleniumStandalone
+from webdriver_controller.tools import async_client
 
 
 class WebdriverController(object):
@@ -28,11 +29,14 @@ class WebdriverController(object):
         self._check_version_file()
 
         chromedriver = ChromeDriver()
-        chromedriver.download_driver()
-
         selenium_standalone = SeleniumStandalone()
-        selenium_standalone.download_driver()
 
+        dl_list = [chromedriver.download_url, selenium_standalone.download_url]
+        async_client.download(dl_list)
+
+        chromedriver.unzip_file()
+
+        # write Webdriver version to file
         version_info = {
             'chrome': chromedriver.version,
             'selenium': selenium_standalone.version
