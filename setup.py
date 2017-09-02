@@ -2,12 +2,13 @@
 from setuptools import setup
 from setuptools import find_packages
 
+import webdriver_controller
 
 setup_args = {
     'name': 'webdriver_controller',
     'packages': find_packages(exclude=['tests']),
     'scripts': ['bin/webdriver_controller'],
-    'version': '0.0.2',
+    'version': webdriver_controller.__version__,
     'description': 'a tool manages local Selenium Webdriver installation',
     'long_description': '''
         A tool manages local Selenium Webdriver installation. It is inspired by Angular team's webdriver-manager package. Details on https://github.com/lcmtwn/webdriver_controller.
@@ -25,6 +26,7 @@ setup_args = {
         'Topic :: Software Development :: Testing'
     ],
     'install_requires': [
+        'aiohttp',
         'requests',
         'xmltodict'
     ]
