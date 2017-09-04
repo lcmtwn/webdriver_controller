@@ -7,30 +7,35 @@ from webdriver_controller import config
 
 
 class SeleniumStandalone(object):
-    def __init__(self):
-        self.version = self.get_latest_version()
-        self.filename = 'selenium-server-standalone-{}.jar'.format(
-            self.version)
+    @property
+    def version(self):
+        return self.get_latest_version()
 
+    @property
+    def download_url(self):
+        filename = 'selenium-server-standalone-{}.jar'.format(self.version)
         version_key = self.version[:(self.version.find('.', -1) - 1)]
-        self.download_url = '{}{}/{}'.format(
-            config.STORAGE_URLS.get('selenium'), version_key, self.filename)
+        url = '{}{}/{}'.format(
+            config.STORAGE_URLS.get('selenium'), version_key, filename)
+        return url
 
     def get_latest_version(self) -> str:
         resp = requests.get(config.STORAGE_URLS.get('selenium'))
-        if resp.status_code != 200:
+        try:
             resp.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            raise e
+        else:
+            doc = xmltodict.parse(resp.content)
+            items = doc.get('ListBucketResult').get('Contents')
 
-        doc = xmltodict.parse(resp.content)
-        items = doc.get('ListBucketResult').get('Contents')
+            for item in reversed(items):
+                if 'standalone' in item.get('Key') and 'beta' not in item.get(
+                        'Key'):
+                    selenium_key = item.get('Key').strip()
+                    break
 
-        for item in reversed(items):
-            if 'standalone' in item.get('Key') and 'beta' not in item.get(
-                    'Key'):
-                selenium_key = item.get('Key').strip()
-                break
+            pattern = re.compile('selenium-server-standalone-(.*).jar')
+            version = pattern.match(selenium_key.split('/')[1]).group(1)
 
-        pattern = re.compile('selenium-server-standalone-(.*).jar')
-        version = pattern.match(selenium_key.split('/')[1]).group(1)
-
-        return version
+            return version
