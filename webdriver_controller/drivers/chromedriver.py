@@ -3,7 +3,7 @@ import subprocess
 import requests
 
 from webdriver_controller import config
-from webdriver_controller.tools import tools
+from webdriver_controller.utils import tools
 
 
 class ChromeDriver(object):
