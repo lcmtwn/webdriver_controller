@@ -12,12 +12,21 @@ class SeleniumStandalone(object):
         return self.get_latest_version()
 
     @property
+    def filename(self):
+        # return 'selenium-server-standalone-{}.jar'.format(self.version)
+        return self._get_filename()
+
+    @property
     def download_url(self):
-        filename = 'selenium-server-standalone-{}.jar'.format(self.version)
+        filename = self._get_filename()
+        # filename = 'selenium-server-standalone-{}.jar'.format(self.version)
         version_key = self.version[:(self.version.find('.', -1) - 1)]
         url = '{}{}/{}'.format(
             config.STORAGE_URLS.get('selenium'), version_key, filename)
         return url
+
+    def _get_filename(self) -> str:
+        return 'selenium-server-standalone-{}.jar'.format(self.version)
 
     def get_latest_version(self) -> str:
         resp = requests.get(config.STORAGE_URLS.get('selenium'))

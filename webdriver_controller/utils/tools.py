@@ -1,6 +1,7 @@
 import json
 import platform
 import os
+import shutil
 import sys
 
 from webdriver_controller import config
@@ -47,3 +48,14 @@ def read_version_file():
     with open(config.VERSION_FILE, 'r') as fh:
         version_info = json.load(fh)
         return version_info
+
+
+def is_java_installed() -> bool:
+    if shutil.which('java') is None:
+        return False
+
+    return True
+
+
+def is_chromedriver_executable_existed() -> bool:
+    return config.CHROMEDRIVER_EXECUTABLE.exists()

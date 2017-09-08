@@ -14,6 +14,14 @@ def get_parser():
         'cleanup', help='remove downloaded Selenium Webdriver binaries')
     sp_list = sub_parsers.add_parser(
         'list', help='list downloaded Selenium Webdriver version')
+    sp_start = sub_parsers.add_parser('start', help='start Selenium binaries')
+    driver_group = sp_start.add_mutually_exclusive_group(required=True)
+    driver_group.add_argument(
+        '--standalone',
+        action='store_true',
+        help='start Selenium Standalone server')
+    driver_group.add_argument(
+        '--chrome', action='store_true', help='start ChromeDriver')
 
     return parser
 
@@ -45,6 +53,13 @@ def main():
 
     if args.commands == 'list':
         controller.list()
+
+    if args.commands == 'start':
+        if args.standalone:
+            controller.start('standalone')
+
+        if args.chrome:
+            controller.start('chrome')
 
 
 if __name__ == '__main__':

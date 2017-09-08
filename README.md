@@ -8,7 +8,7 @@ A tool manages Selenium Webdriver local installation. It is inspired by Angular 
 Get Started
 ---
 ```
-usage: webdriver_controller [-h] {download,cleanup} ...
+usage: webdriver_controller [-h] {download,cleanup,list,start} ...
 
 Webdriver controller
 
@@ -17,6 +17,7 @@ positional arguments:
     download          download Selenium Webdriver binaries
     cleanup           remove downloaded Selenium Webdriver binaries
     list              list downloaded Selenium Webdriver version
+    start             start Selenium standalone server
 
 optional arguments:
   -h, --help          show this help message and exit
