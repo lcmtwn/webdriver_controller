@@ -17,7 +17,7 @@ positional arguments:
     download          download Selenium Webdriver binaries
     cleanup           remove downloaded Selenium Webdriver binaries
     list              list downloaded Selenium Webdriver version
-    start             start Selenium standalone server
+    start             start Selenium binaries
 
 optional arguments:
   -h, --help          show this help message and exit
