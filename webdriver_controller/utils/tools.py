@@ -21,7 +21,7 @@ def is_installation_folder_existed() -> bool:
 
 
 def check_installation_folder() -> None:
-    if not is_installation_folder_existed:
+    if not is_installation_folder_existed():
         config.INSTALLATION_FOLDER.mkdir()
 
 
