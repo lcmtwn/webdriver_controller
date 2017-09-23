@@ -1,3 +1,5 @@
+import subprocess
+import sys
 import tarfile
 
 import requests
@@ -50,3 +52,15 @@ class GeckoDriver(object):
 
         with tarfile.open(tar_file) as fh:
             fh.extractall(config.INSTALLATION_FOLDER)
+
+    def start(self) -> None:
+        if not tools.is_geckodriver_executable_existed():
+            print(
+                'geckodriver not found in Selenium Webdriver installation folder'
+            )
+            sys.exit(1)
+
+        try:
+            subprocess.run([config.GECKODRIVER_EXECUTABLE])
+        except KeyboardInterrupt:
+            print('\rStop GeckoDriver')

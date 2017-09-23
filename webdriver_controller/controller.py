@@ -1,5 +1,4 @@
 import shutil
-import subprocess
 import sys
 
 from webdriver_controller import config
@@ -16,8 +15,8 @@ class WebdriverController(object):
         tools.check_version_file()
 
         chromedriver = ChromeDriver()
-        selenium_standalone = SeleniumStandalone()
         geckodriver = GeckoDriver()
+        selenium_standalone = SeleniumStandalone()
 
         dl_list = [
             chromedriver.download_url, geckodriver.download_url,
@@ -67,47 +66,13 @@ class WebdriverController(object):
             sys.exit(1)
 
         if driver is 'standalone':
-            self._start_standalone()
+            selenium_standalone = SeleniumStandalone()
+            selenium_standalone.start()
 
         if driver is 'chrome':
-            self._start_chromedriver()
+            chromedriver = ChromeDriver()
+            chromedriver.start()
 
         if driver is 'gecko':
-            self._start_geckodriver()
-
-    def _start_standalone(self) -> None:
-        if not tools.is_java_installed():
-            print('No Java executable found')
-            sys.exit(1)
-
-        selenium_standalone = SeleniumStandalone()
-        selenium_executable = '{}/{}'.format(config.INSTALLATION_FOLDER,
-                                             selenium_standalone.filename)
-        try:
-            subprocess.run(['java', '-jar', selenium_executable])
-        except KeyboardInterrupt:
-            print('\rStop Selenium standalone server')
-
-    def _start_chromedriver(self) -> None:
-        if not tools.is_chromedriver_executable_existed():
-            print(
-                'chromedriver not found in Selenium Webdriver installation folder'
-            )
-            sys.exit(1)
-
-        try:
-            subprocess.run([config.CHROMEDRIVER_EXECUTABLE])
-        except KeyboardInterrupt:
-            print('\rStop ChromeDriver')
-
-    def _start_geckodriver(self) -> None:
-        if not tools.is_geckodriver_executable_existed():
-            print(
-                'geckodriver not found in Selenium Webdriver installation folder'
-            )
-            sys.exit(1)
-
-        try:
-            subprocess.run([config.GECKODRIVER_EXECUTABLE])
-        except KeyboardInterrupt:
-            print('\rStop GeckoDriver')
+            geckodriver = GeckoDriver()
+            geckodriver.start()

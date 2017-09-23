@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 import requests
 
@@ -41,3 +42,15 @@ class ChromeDriver(object):
         # unzip the driver
         subprocess.run(
             ['unzip', '-oq', dest, '-d', config.INSTALLATION_FOLDER])
+
+    def start(self) -> None:
+        if not tools.is_chromedriver_executable_existed():
+            print(
+                'chromedriver not found in Selenium Webdriver installation folder'
+            )
+            sys.exit(1)
+
+        try:
+            subprocess.run([config.CHROMEDRIVER_EXECUTABLE])
+        except KeyboardInterrupt:
+            print('\rStop ChromeDriver')
