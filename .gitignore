@@ -9,6 +9,6 @@ webdriver_controller.egg-info/
 venv/
 
 reports/
-drivers/
+/drivers/
 
 pip-log.txt
