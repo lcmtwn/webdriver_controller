@@ -17,11 +17,13 @@ def get_parser():
     sp_start = sub_parsers.add_parser('start', help='start Selenium binaries')
     driver_group = sp_start.add_mutually_exclusive_group(required=True)
     driver_group.add_argument(
+        '--chrome', action='store_true', help='start ChromeDriver')
+    driver_group.add_argument(
+        '--gecko', action='store_true', help='start GeckoDriver')
+    driver_group.add_argument(
         '--standalone',
         action='store_true',
         help='start Selenium Standalone server')
-    driver_group.add_argument(
-        '--chrome', action='store_true', help='start ChromeDriver')
 
     return parser
 
@@ -60,6 +62,9 @@ def main():
 
         if args.chrome:
             controller.start('chrome')
+
+        if args.gecko:
+            controller.start('gecko')
 
 
 if __name__ == '__main__':

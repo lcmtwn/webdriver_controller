@@ -13,7 +13,7 @@ usage: webdriver_controller [-h] {download,cleanup,list,start} ...
 Webdriver controller
 
 positional arguments:
-  {download,cleanup}
+  {download,cleanup,list,start}
     download          download Selenium Webdriver binaries
     cleanup           remove downloaded Selenium Webdriver binaries
     list              list downloaded Selenium Webdriver version
@@ -25,5 +25,5 @@ optional arguments:
 Limitation
 ---
 * Mac/Linux platform are supported.
- * only tested on Python 3.5.x and Mac OS
-* only selenium standalone jar and chrome driver are downloaded.
+ * only tested on Python 3.5+ and Mac OS
+* Selenium standalone server, Gecko driver and Chrome driver are downloaded.

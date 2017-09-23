@@ -4,6 +4,7 @@ import sys
 
 from webdriver_controller import config
 from webdriver_controller.drivers.chromedriver import ChromeDriver
+from webdriver_controller.drivers.geckodriver import GeckoDriver
 from webdriver_controller.drivers.selenium_standalone import SeleniumStandalone
 from webdriver_controller.utils import async_client
 from webdriver_controller.utils import tools
@@ -16,15 +17,21 @@ class WebdriverController(object):
 
         chromedriver = ChromeDriver()
         selenium_standalone = SeleniumStandalone()
+        geckodriver = GeckoDriver()
 
-        dl_list = [chromedriver.download_url, selenium_standalone.download_url]
+        dl_list = [
+            chromedriver.download_url, geckodriver.download_url,
+            selenium_standalone.download_url
+        ]
         async_client.download(dl_list)
 
         chromedriver.unzip_file()
+        geckodriver.unzip_file()
 
         # write Webdriver version to file
         version_info = {
             'chrome': chromedriver.version,
+            'geckodriver': geckodriver.version,
             'selenium': selenium_standalone.version
         }
 
@@ -44,9 +51,11 @@ class WebdriverController(object):
                 version_info = tools.read_version_file()
 
                 print('ChromeDriver version: {}'.format(
-                    version_info.get('chrome')))
+                    version_info.get('chrome', '-')))
+                print('GeckoDriver version: {}'.format(
+                    version_info.get('geckodriver', '-')))
                 print('Selenium standalone version: {}'.format(
-                    version_info.get('selenium')))
+                    version_info.get('selenium', '-')))
             else:
                 print('no installation file found')
         else:
@@ -62,6 +71,9 @@ class WebdriverController(object):
 
         if driver is 'chrome':
             self._start_chromedriver()
+
+        if driver is 'gecko':
+            self._start_geckodriver()
 
     def _start_standalone(self) -> None:
         if not tools.is_java_installed():
@@ -87,3 +99,15 @@ class WebdriverController(object):
             subprocess.run([config.CHROMEDRIVER_EXECUTABLE])
         except KeyboardInterrupt:
             print('\rStop ChromeDriver')
+
+    def _start_geckodriver(self) -> None:
+        if not tools.is_geckodriver_executable_existed():
+            print(
+                'geckodriver not found in Selenium Webdriver installation folder'
+            )
+            sys.exit(1)
+
+        try:
+            subprocess.run([config.GECKODRIVER_EXECUTABLE])
+        except KeyboardInterrupt:
+            print('\rStop GeckoDriver')

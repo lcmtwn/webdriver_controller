@@ -9,11 +9,12 @@ from webdriver_controller import config
 
 def get_platform() -> str:
     if os.name == 'posix':
+        arch = platform.architecture()[0]
+
         if 'darwin' == sys.platform:
-            return 'mac64'
+            return 'mac{}'.format(arch[0:2])
         if 'linux' == sys.platform:
-            arch = platform.architecture()[0]
-            return '{}{}'.format('linux', arch[0:2])
+            return 'linux{}'.format(arch[0:2])
 
 
 def is_installation_folder_existed() -> bool:
@@ -59,3 +60,7 @@ def is_java_installed() -> bool:
 
 def is_chromedriver_executable_existed() -> bool:
     return config.CHROMEDRIVER_EXECUTABLE.exists()
+
+
+def is_geckodriver_executable_existed() -> bool:
+    return config.GECKODRIVER_EXECUTABLE.exists()
