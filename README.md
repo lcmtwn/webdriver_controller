@@ -1,5 +1,7 @@
 Webdriver Controller
 ===
+[![PyPI](https://img.shields.io/pypi/v/webdriver_controller.svg?style=flat)](https://pypi.python.org/pypi/webdriver_controller)
+[![PyPI](https://img.shields.io/pypi/status/webdriver_controller.svg?style=flat)](https://pypi.python.org/pypi/webdriver_controller)
 
 **Working in progress**
 
