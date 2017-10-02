@@ -7,6 +7,7 @@ import webdriver_controller
 setup_args = {
     'name': 'webdriver_controller',
     'packages': find_packages(exclude=['tests']),
+    'license': 'MIT',
     'scripts': ['bin/webdriver_controller'],
     'version': webdriver_controller.__version__,
     'description': 'a tool manages local Selenium Webdriver installation',
