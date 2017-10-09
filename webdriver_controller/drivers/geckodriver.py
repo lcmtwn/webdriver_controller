@@ -64,3 +64,4 @@ class GeckoDriver(object):
             subprocess.run([config.GECKODRIVER_EXECUTABLE])
         except KeyboardInterrupt:
             print('\rStop GeckoDriver')
+            sys.exit(127)

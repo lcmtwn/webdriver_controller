@@ -66,13 +66,10 @@ class WebdriverController(object):
             sys.exit(1)
 
         if driver is 'standalone':
-            selenium_standalone = SeleniumStandalone()
-            selenium_standalone.start()
+            SeleniumStandalone().start()
 
         if driver is 'chrome':
-            chromedriver = ChromeDriver()
-            chromedriver.start()
+            ChromeDriver().start()
 
         if driver is 'gecko':
-            geckodriver = GeckoDriver()
-            geckodriver.start()
+            GeckoDriver().start()

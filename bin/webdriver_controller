@@ -5,7 +5,7 @@ import sys
 from webdriver_controller.controller import WebdriverController
 
 
-def get_parser():
+def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description='Webdriver controller')
     sub_parsers = parser.add_subparsers(dest='commands')
     sp_download = sub_parsers.add_parser(
@@ -28,7 +28,8 @@ def get_parser():
     return parser
 
 
-def main():
+def check_runtime() -> None:
+    # Python version support
     if sys.version_info.major < 3:
         print('Python 3.5+ is required')
         sys.exit(1)
@@ -38,8 +39,11 @@ def main():
         print('Python 3.5+ is required')
         sys.exit(1)
 
-    parser = get_parser()
 
+def main():
+    check_runtime()
+
+    parser = get_parser()
     if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(0)

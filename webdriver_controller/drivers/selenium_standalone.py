@@ -57,3 +57,4 @@ class SeleniumStandalone(object):
             subprocess.run(['java', '-jar', selenium_executable])
         except KeyboardInterrupt:
             print('\rStop Selenium standalone server')
+            sys.exit(127)

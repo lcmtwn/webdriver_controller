@@ -54,3 +54,4 @@ class ChromeDriver(object):
             subprocess.run([config.CHROMEDRIVER_EXECUTABLE])
         except KeyboardInterrupt:
             print('\rStop ChromeDriver')
+            sys.exit(127)
